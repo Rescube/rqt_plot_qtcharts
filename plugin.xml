@@ -1,0 +1,15 @@
+<library path="lib/librqt_plot_qtcharts">
+  <class name="rqt_plot_qtcharts/PlotQtCharts" type="rqt_plot_qtcharts::PlotQtCharts" base_class_type="rqt_gui_cpp::Plugin">
+    <description>A native C++ plugin for visualizing numeric values in a 2D plot using the native QtCharts plotting backend.</description>
+    <qtgui>
+      <group>
+        <label>Visualization</label>
+        <icon type="theme">folder</icon>
+        <statustip>Plugins related to visualization.</statustip>
+      </group>
+      <label>Plot (QtCharts)</label>
+      <icon type="theme">utilities-system-monitor</icon>
+      <statustip>A nateive C++ plugin for visualizing numeric values in a 2D plot using the native QtCharts plotting backend.</statustip>
+    </qtgui>
+  </class>
+</library>

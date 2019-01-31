@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>x-axis_and_y-axis-512.png</file>
+    </qresource>
+</RCC>
