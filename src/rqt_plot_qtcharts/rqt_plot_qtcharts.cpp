@@ -23,15 +23,17 @@ void PlotQtCharts::shutdownPlugin()
 
 }
 
-void PlotQtCharts::saveSettings(qt_gui_cpp::Settings &instance_settings) const
+void PlotQtCharts::saveSettings(qt_gui_cpp::Settings &plugin_settings, qt_gui_cpp::Settings &instance_settings) const
 {
+    Q_UNUSED(plugin_settings);
     if (m_widget) {
         m_widget->saveSettings(instance_settings);
     }
 }
 
-void PlotQtCharts::restoreSettings(const qt_gui_cpp::Settings &instance_settings)
+void PlotQtCharts::restoreSettings(const qt_gui_cpp::Settings &plugin_settings, const qt_gui_cpp::Settings &instance_settings)
 {
+    Q_UNUSED(plugin_settings);
     if (m_widget) {
         m_widget->restoreSettings(instance_settings);
     }

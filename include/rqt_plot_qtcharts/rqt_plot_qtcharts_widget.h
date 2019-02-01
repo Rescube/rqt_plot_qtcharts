@@ -4,14 +4,26 @@
 #include "rqt_plot_qtcharts/plotverticalaxis.h"
 #include "rqt_plot_qtcharts/dialogaxes.h"
 
-#include <ros/master.h>
+#include <rqt_gui_cpp/plugin.h>
 
-
+#include <QAction>
 #include <QWidget>
 
 namespace Ui {
 class PlotQtChartsWidget;
 }
+
+class SeriesRemoveAction : public QAction
+{
+    Q_OBJECT
+public:
+    SeriesRemoveAction(PlotLineSeries *series, QObject *parent = nullptr);
+
+    PlotLineSeries *series() const;
+
+private:
+    PlotLineSeries *m_series;
+};
 
 class PlotQtChartsWidget : public QWidget
 {
@@ -21,8 +33,8 @@ public:
     explicit PlotQtChartsWidget(QWidget *parent = nullptr);
     ~PlotQtChartsWidget();
 
-    void saveSettings(qt_gui_cpp::Settings& plugin_settings, qt_gui_cpp::Settings& instance_settings) const override;
-    void restoreSettings(const qt_gui_cpp::Settings& plugin_settings, const qt_gui_cpp::Settings& instance_settings) override;
+    void saveSettings(qt_gui_cpp::Settings& instance_settings) const;
+    void restoreSettings(const qt_gui_cpp::Settings& instance_settings);
 
 private slots:
     void on_toolButtonAddTopic_clicked();
@@ -34,6 +46,8 @@ private:
     DialogAxes *m_axesDialog;
 
     QList<PlotVerticalAxis*> m_verticalAxes;
+
+    QMenu *m_seriesMenu;
 };
 
 #endif // RQT_PLOT_QTCHARTS_WIDGET_H

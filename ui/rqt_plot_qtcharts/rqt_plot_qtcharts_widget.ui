@@ -26,14 +26,25 @@
      <item>
       <widget class="QToolButton" name="toolButtonAddTopic">
        <property name="text">
-        <string>+</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../res/resources.qrc">
+         <normaloff>:/icons/list-add.png</normaloff>:/icons/list-add.png</iconset>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QToolButton" name="toolButtonRemoveTopic">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
-        <string>-</string>
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../../res/resources.qrc">
+         <normaloff>:/icons/list-remove.png</normaloff>:/icons/list-remove.png</iconset>
        </property>
       </widget>
      </item>

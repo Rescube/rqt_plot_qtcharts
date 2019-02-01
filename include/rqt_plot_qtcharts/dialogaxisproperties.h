@@ -2,8 +2,10 @@
 #define DIALOGAXISPROPERTIES_H
 
 #include "plotverticalaxis.h"
+#include "plotlineseries.h"
 
 #include <QDialog>
+#include <QShowEvent>
 
 namespace Ui {
 class DialogAxisProperties;
@@ -17,12 +19,18 @@ public:
     explicit DialogAxisProperties(QWidget *parent = 0);
     ~DialogAxisProperties();
 
+    void showEvent(QShowEvent *event);
+
     PlotLineSeries *series() const;
     void setSeries(PlotLineSeries *series);
 
-private slots:
+    PlotVerticalAxis *axis() const;
+    void setAxis(PlotVerticalAxis *axis);
 
+private slots:
     void on_checkBoxAutoScale_toggled(bool checked);
+    void on_pushButtonAddSeries_clicked();
+    void on_buttonBox_accepted();
 
 private:
     Ui::DialogAxisProperties *ui;

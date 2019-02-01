@@ -16,8 +16,10 @@ public:
     void initPlugin(qt_gui_cpp::PluginContext& context) override;
     void shutdownPlugin() override;
 
-    void saveSettings(qt_gui_cpp::Settings& plugin_settings, qt_gui_cpp::Settings& instance_settings) const override;
-    void restoreSettings(const qt_gui_cpp::Settings& plugin_settings, const qt_gui_cpp::Settings& instance_settings) override;
+    void saveSettings(qt_gui_cpp::Settings& plugin_settings,
+                      qt_gui_cpp::Settings& instance_settings) const override;
+    void restoreSettings(const qt_gui_cpp::Settings& plugin_settings,
+                         const qt_gui_cpp::Settings& instance_settings) override;
 
 private:
     PlotQtChartsWidget *m_widget = nullptr;

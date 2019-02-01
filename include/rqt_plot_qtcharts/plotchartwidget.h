@@ -3,7 +3,10 @@
 
 #include "plotlineseries.h"
 #include "plotverticalaxis.h"
+#include "plotverticalaxesmodel.h"
 #include "zoomablechartview.h"
+
+#include <rqt_gui_cpp/plugin.h>
 
 #include <QWidget>
 
@@ -23,6 +26,7 @@ QT_CHARTS_USE_NAMESPACE
 
 class PlotChartWidget : public QWidget
 {
+    friend class PlotVerticalAxesModel;
     Q_OBJECT
 public:
     explicit PlotChartWidget(QWidget *parent = nullptr);
@@ -30,16 +34,33 @@ public:
 
     void saveSettings(qt_gui_cpp::Settings& instance_settings) const;
     void restoreSettings(const qt_gui_cpp::Settings& instance_settings);
-signals:
 
-public slots:
+    void addSeries(PlotLineSeries *seriesList);
+    void removeSeries(PlotLineSeries *seriesList);
+    void addAxis(PlotVerticalAxis *axis);
+
+    QList<PlotVerticalAxis *> verticalAxes() const;
+    void connectLegendMarkerEvents();
+
+    QList<PlotLineSeries *> seriesList() const;
+
 private:
-     QChart *m_chart;
-     ZoomableChartView *m_chartView;
-     QValueAxis *m_axisX;
+    QChart *m_chart;
+    ZoomableChartView *m_chartView;
+    QValueAxis *m_axisX;
 
-     QList<PlotLineSeries*> m_series;
-     QList<PlotVerticalAxis*> m_verticalAxes;
+    QList<PlotLineSeries*> m_series;
+    QList<PlotVerticalAxis*> m_verticalAxes;
+
+    void saveAxes(qt_gui_cpp::Settings &instance_settings) const;
+    void saveSeries(qt_gui_cpp::Settings &instance_settings) const;
+    void restoreAxes(const qt_gui_cpp::Settings &instance_settings);
+    void restoreSeries(const qt_gui_cpp::Settings &instance_settings);
+    void addDefaultAxis();
+    void setVisibilityOfMarkerAndSeries(QLegendMarker* marker, bool visible);
+
+private slots:
+    void handleMarkerClicked();
 };
 
 #endif // PLOTCHARTWIDGET_H

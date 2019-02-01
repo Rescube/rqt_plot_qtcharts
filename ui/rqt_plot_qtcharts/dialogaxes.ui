@@ -15,7 +15,14 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0" colspan="4">
-    <widget class="QTableView" name="tableView"/>
+    <widget class="QTableView" name="tableViewAxesList">
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="selectionBehavior">
+      <enum>QAbstractItemView::SelectRows</enum>
+     </property>
+    </widget>
    </item>
    <item row="1" column="2" rowspan="2" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
