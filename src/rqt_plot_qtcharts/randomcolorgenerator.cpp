@@ -1,4 +1,4 @@
-#include "rqt_plot_qtcharts/randomcolorgenerator.h"
+#include "randomcolorgenerator.h"
 
 #include <qmath.h>
 RandomColorGenerator* RandomColorGenerator::m_instance = nullptr;
@@ -22,7 +22,7 @@ QColor RandomColorGenerator::get()
     return m_colorList.at(m_index);
 }
 
-RandomColorGenerator *RandomColorGenerator::getInstance()
+RandomColorGenerator *RandomColorGenerator::instance()
 {
     if (!m_instance)
         m_instance = new RandomColorGenerator();

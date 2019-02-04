@@ -9,11 +9,11 @@ QT_CHARTS_END_NAMESPACE
 
 QT_CHARTS_USE_NAMESPACE
 
-class PlotVerticalAxis : public QValueAxis
+class VerticalAxis : public QValueAxis
 {
     Q_OBJECT
 public:
-    PlotVerticalAxis(QObject *parent = nullptr);
+    VerticalAxis(QObject *parent = nullptr);
 
     QString label() const;
     void setLabel(const QString &label);
@@ -27,10 +27,25 @@ public:
     Qt::Alignment align() const;
     void setAlign(const Qt::Alignment &align);
 
+    QString getUid() const;
+    void setUid(const QString &value);
+
+    void resetRange();
+
+    qreal rangeMin() const;
+    void setRangeMin(const qreal &rangeMin);
+
+    qreal rangeMax() const;
+    void setRangeMax(const qreal &rangeMax);
+
 private:
     QString m_name, m_label;
     bool m_autoScale = false;
     Qt::Alignment m_align;
+    QString m_uid;
+
+    qreal m_rangeMin = 0, m_rangeMax = 100.0;
+
 signals:
     void alignChanged(Qt::Alignment align);
 };

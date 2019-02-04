@@ -1,5 +1,6 @@
-#include "rqt_plot_qtcharts/plotlineseries.h"
+#include "plotlineseries.h"
 
+#include <QDebug>
 #include <QPen>
 
 QT_CHARTS_USE_NAMESPACE
@@ -44,12 +45,27 @@ void PlotLineSeries::setWidth(const qreal &width)
     setPen(pen);
 }
 
-PlotVerticalAxis *PlotLineSeries::verticalAxis() const
+VerticalAxis *PlotLineSeries::verticalAxis() const
 {
     return m_verticalAxis;
 }
 
-void PlotLineSeries::setVerticalAxis(PlotVerticalAxis *verticalAxis)
+void PlotLineSeries::setVerticalAxis(VerticalAxis *verticalAxis)
 {
-    m_verticalAxis = verticalAxis;
+    if (m_verticalAxis != verticalAxis) {
+        m_verticalAxis = verticalAxis;
+        emit axisChanged();
+    }
+}
+
+void PlotLineSeries::dataReceived(qreal y)
+{
+    append(m_xIndex, y);
+    m_xIndex++;
+}
+
+void PlotLineSeries::clear()
+{
+    m_xIndex = 0;
+    QLineSeries::clear();
 }

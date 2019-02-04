@@ -2,7 +2,6 @@
 #define DIALOGPLOTSERIESPROPERTIES_H
 
 #include "plotlineseries.h"
-#include "plotchartwidget.h"
 
 #include <QDialog>
 
@@ -15,8 +14,7 @@ class DialogPlotSeriesProperties : public QDialog
     Q_OBJECT
 
 public:
-    DialogPlotSeriesProperties(PlotChartWidget *chart, QWidget *parent = 0);
-    DialogPlotSeriesProperties(PlotChartWidget *chart, const QString & topicName, QWidget *parent = 0);
+    DialogPlotSeriesProperties(QWidget *parent = 0);
     ~DialogPlotSeriesProperties();
 
     PlotLineSeries *series() const;
@@ -33,7 +31,6 @@ private:
 
     PlotLineSeries *m_series = nullptr;
     QColor m_color = Qt::red;
-    PlotChartWidget *m_plotChartWidget;
 };
 
 #endif // DIALOGPLOTSERIESPROPERTIES_H

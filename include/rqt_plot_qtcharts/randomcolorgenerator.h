@@ -8,7 +8,7 @@ class RandomColorGenerator
 {
 public:
     QColor get();
-    static RandomColorGenerator *getInstance();
+    static RandomColorGenerator *instance();
 private:
     QVector<QColor> m_colorList;
     int m_index = 0;

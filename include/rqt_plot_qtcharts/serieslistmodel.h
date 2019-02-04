@@ -1,23 +1,21 @@
-#ifndef PLOTVERTICALAXESMODEL_H
-#define PLOTVERTICALAXESMODEL_H
+#ifndef SERIESLISTMODEL_H
+#define SERIESLISTMODEL_H
 
-#include "plotchartwidget.h"
+#include "plotlineseries.h"
 
 #include <QAbstractTableModel>
 
-class PlotChartWidget;
-
-class PlotVerticalAxesModel : public QAbstractTableModel
+class SeriesListModel : public QAbstractTableModel
 {
+    Q_OBJECT
 public:
-
     enum Columns {
         Col_Name,
         Col_Visible,
         Col_Invalid
     };
 
-    PlotVerticalAxesModel(PlotChartWidget *widget, QObject *parent = nullptr);
+    SeriesListModel(QObject *parent = nullptr);
 
     int rowCount(const QModelIndex &parent) const override;
     int columnCount(const QModelIndex &parent) const override;
@@ -28,11 +26,10 @@ public:
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
 
-    void refresh();
-    PlotVerticalAxis *axis(const QModelIndex & index);
+    PlotLineSeries *series(const QModelIndex& index);
 
-private:
-    PlotChartWidget *m_chartWidget;
+public slots:
+    void refresh();
 };
 
-#endif // PLOTVERTICALAXESMODEL_H
+#endif // SERIESLISTMODEL_H

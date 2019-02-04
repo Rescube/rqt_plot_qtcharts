@@ -1,7 +1,7 @@
 #ifndef PLOTLINESERIES_H
 #define PLOTLINESERIES_H
 
-#include "rqt_plot_qtcharts/plotverticalaxis.h"
+#include "verticalaxis.h"
 
 #include <QtCharts/QChart>
 #include <QtCharts/QChartGlobal>
@@ -15,6 +15,7 @@ QT_CHARTS_USE_NAMESPACE
 
 class PlotLineSeries : public QLineSeries
 {
+    Q_OBJECT
 public:
     PlotLineSeries(QObject *parent = nullptr);
     QString dataSource() const;
@@ -26,13 +27,20 @@ public:
     qreal width() const;
     void setWidth(const qreal &width);
 
-    PlotVerticalAxis *verticalAxis() const;
-    void setVerticalAxis(PlotVerticalAxis *verticalAxis);
+    VerticalAxis *verticalAxis() const;
+    void setVerticalAxis(VerticalAxis *verticalAxis);
+
+    void dataReceived(qreal y);
+    void clear();
 
 private:
     // topic name
     QString m_dataSource;
-    PlotVerticalAxis *m_verticalAxis = nullptr;
+    VerticalAxis *m_verticalAxis = nullptr;
+    qreal m_xIndex = 0;
+signals:
+    void axisChanged();
 };
 
 #endif // PLOTLINESERIES_H
+

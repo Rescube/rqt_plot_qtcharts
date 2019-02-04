@@ -3,5 +3,12 @@
         <file>x-axis_and_y-axis-512.png</file>
         <file>list-remove.png</file>
         <file>list-add.png</file>
+        <file>series.png</file>
+        <file>edit-clear.png</file>
+        <file>media-record.png</file>
+        <file>rectangle_zoom.png</file>
+        <file>pan.png</file>
+        <file>vertical_zoom.png</file>
+        <file>horizontal_zoom.png</file>
     </qresource>
 </RCC>

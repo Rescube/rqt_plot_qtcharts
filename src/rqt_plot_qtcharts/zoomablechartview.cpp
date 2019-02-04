@@ -1,9 +1,8 @@
-#include "rqt_plot_qtcharts/zoomablechartview.h"
+#include "zoomablechartview.h"
 #include <QtGui/QMouseEvent>
 
-ZoomableChartView::ZoomableChartView(QChart *chart, QWidget *parent) :
-    QChartView(chart, parent),
-    m_isTouching(false)
+ZoomableChartView::ZoomableChartView(QWidget *parent) :
+    QChartView(parent)
 {
     setRubberBand(QChartView::RectangleRubberBand);
 }
@@ -52,6 +51,36 @@ void ZoomableChartView::wheelEvent(QWheelEvent *event)
     }
 }
 
+ZoomableChartView::ZoomMode ZoomableChartView::zoomMode() const
+{
+    return m_zoomMode;
+}
+
+void ZoomableChartView::setZoomMode(const ZoomMode &zoomMode)
+{
+    if (m_zoomMode != zoomMode) {
+        m_zoomMode = zoomMode;
+        switch (zoomMode) {
+        case Pan:
+            setRubberBand(QChartView::NoRubberBand);
+            setDragMode(QChartView::ScrollHandDrag);
+            break;
+        case RectangleZoom:
+            setRubberBand(QChartView::RectangleRubberBand);
+            setDragMode(QChartView::NoDrag);
+            break;
+        case HorizontalZoom:
+            setRubberBand(QChartView::HorizontalRubberBand);
+            setDragMode(QChartView::NoDrag);
+            break;
+        case VerticalZoom:
+            setRubberBand(QChartView::VerticalRubberBand);
+            setDragMode(QChartView::NoDrag);
+            break;
+        }
+    }
+}
+
 void ZoomableChartView::zoomX(qreal factor, qreal xcenter)
 {
     QRectF rect = chart()->plotArea();
@@ -97,7 +126,7 @@ void ZoomableChartView::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Minus:
         chart()->zoomOut();
         break;
-//![1]
+        //![1]
     case Qt::Key_Left:
         chart()->scroll(-10, 0);
         break;

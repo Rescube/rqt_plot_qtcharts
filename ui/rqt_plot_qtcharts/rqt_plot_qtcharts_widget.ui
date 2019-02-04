@@ -49,6 +49,17 @@
       </widget>
      </item>
      <item>
+      <widget class="QToolButton" name="toolButtonSeries">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../res/resources.qrc">
+         <normaloff>:/icons/series.png</normaloff>:/icons/series.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QToolButton" name="toolButtonSettings">
        <property name="text">
         <string>...</string>
@@ -59,10 +70,35 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QToolButton" name="toolButtonRecord">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../res/resources.qrc">
+         <normaloff>:/icons/media-record.png</normaloff>:/icons/media-record.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="toolButtonClear">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../res/resources.qrc">
+         <normaloff>:/icons/edit-clear.png</normaloff>:/icons/edit-clear.png</iconset>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item row="1" column="0">
-    <widget class="PlotChartWidget" name="chart" native="true">
+    <widget class="ZoomableChartWidget" name="zoomableChartWidget" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -78,9 +114,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>PlotChartWidget</class>
+   <class>ZoomableChartWidget</class>
    <extends>QWidget</extends>
-   <header location="global">rqt_plot_qtcharts/plotchartwidget.h</header>
+   <header>zoomablechartwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

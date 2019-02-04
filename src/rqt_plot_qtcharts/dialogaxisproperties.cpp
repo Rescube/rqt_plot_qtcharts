@@ -1,4 +1,4 @@
-#include "rqt_plot_qtcharts/dialogaxisproperties.h"
+#include "dialogaxisproperties.h"
 #include "ui_dialogaxisproperties.h"
 
 DialogAxisProperties::DialogAxisProperties(QWidget *parent) :
@@ -32,12 +32,12 @@ void DialogAxisProperties::on_checkBoxAutoScale_toggled(bool checked)
     }
 }
 
-PlotVerticalAxis *DialogAxisProperties::axis() const
+VerticalAxis *DialogAxisProperties::axis() const
 {
     return m_axis;
 }
 
-void DialogAxisProperties::setAxis(PlotVerticalAxis *axis)
+void DialogAxisProperties::setAxis(VerticalAxis *axis)
 {
     m_axis = axis;
 
@@ -45,8 +45,8 @@ void DialogAxisProperties::setAxis(PlotVerticalAxis *axis)
     ui->lineEditAxisName->setText(m_axis->name());
 
     ui->spinBoxTickCount->setValue(m_axis->tickCount());
-    ui->doubleSpinBoxRangeMin->setValue(m_axis->min());
-    ui->doubleSpinBoxRangeMax->setValue(m_axis->max());
+    ui->doubleSpinBoxRangeMin->setValue(m_axis->rangeMin());
+    ui->doubleSpinBoxRangeMax->setValue(m_axis->rangeMax());
     ui->checkBoxAxisLabelVisible->setChecked(m_axis->isVisible());
 
     if (m_axis->align() == Qt::AlignRight) {
@@ -67,6 +67,8 @@ void DialogAxisProperties::on_buttonBox_accepted()
     m_axis->setLabel(ui->lineEditAxisLabel->text());
     m_axis->setAutoScale(ui->checkBoxAutoScale->isChecked());
     m_axis->setTickCount(ui->spinBoxTickCount->value());
+    m_axis->setRangeMin(ui->doubleSpinBoxRangeMin->value());
+    m_axis->setRangeMax(ui->doubleSpinBoxRangeMax->value());
     if (!ui->checkBoxAutoScale->isChecked()) {
         m_axis->setRange(ui->doubleSpinBoxRangeMin->value(),
                          ui->doubleSpinBoxRangeMax->value());

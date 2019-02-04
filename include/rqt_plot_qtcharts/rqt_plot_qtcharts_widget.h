@@ -1,8 +1,14 @@
 #ifndef RQT_PLOT_QTCHARTS_WIDGET_H
 #define RQT_PLOT_QTCHARTS_WIDGET_H
 
-#include "rqt_plot_qtcharts/plotverticalaxis.h"
-#include "rqt_plot_qtcharts/dialogaxes.h"
+#include "verticalaxis.h"
+#include "dialogaxes.h"
+#include "dialogseries.h"
+
+#include <rescube_msgs/PIDDebug.h>
+
+#include <ros/node_handle.h>
+#include <ros/subscriber.h>
 
 #include <rqt_gui_cpp/plugin.h>
 
@@ -40,14 +46,34 @@ private slots:
     void on_toolButtonAddTopic_clicked();
     void on_toolButtonRemoveTopic_clicked();
     void on_toolButtonSettings_clicked();
+    void on_toolButtonSeries_clicked();
+    void on_toolButtonRecord_toggled(bool checked);
+    void on_toolButtonClear_clicked();
+
+    void seriesAdded(PlotLineSeries *newSeries);
+    void seriesRemoved(PlotLineSeries *series);
+
+    void axisAdded(VerticalAxis *axis);
+    void axisRemoved(VerticalAxis *axis);
 
 private:
     Ui::PlotQtChartsWidget *ui;
-    DialogAxes *m_axesDialog;
+    DialogAxes *m_axesDialog = nullptr;
+    DialogSeries *m_seriesDialog = nullptr;
 
-    QList<PlotVerticalAxis*> m_verticalAxes;
+    QValueAxis *m_axisX = nullptr;
 
-    QMenu *m_seriesMenu;
+    ros::Subscriber m_subscriber;
+    ros::NodeHandle m_nodeHandle;
+
+    void saveAxes(qt_gui_cpp::Settings &instance_settings) const;
+    void saveSeries(qt_gui_cpp::Settings &instance_settings) const;
+    void restoreAxes(const qt_gui_cpp::Settings &instance_settings);
+    void restoreSeries(const qt_gui_cpp::Settings &instance_settings);
+
+    void debugCallback(const rescube_msgs::PIDDebug::ConstPtr &dbg);
+
+    void addDefaultVerticalAxis();
 };
 
 #endif // RQT_PLOT_QTCHARTS_WIDGET_H

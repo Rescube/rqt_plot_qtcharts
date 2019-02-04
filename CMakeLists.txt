@@ -10,6 +10,7 @@ project(rqt_plot_qtcharts)
 find_package(catkin REQUIRED COMPONENTS
   rqt_gui
   rqt_gui_cpp
+  rescube_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -35,6 +36,7 @@ qt5_add_resources (RCC_SOURCES ${RESOURCES})
 
 set(rqt_plot_qtcharts_INCLUDE_DIRECTORIES
   include
+  include/rqt_plot_qtcharts
   ${CMAKE_CURRENT_BINARY_DIR}
 )
 

@@ -1,25 +1,15 @@
-#include "rqt_plot_qtcharts/dialogplotseriesproperties.h"
+#include "dialogplotseriesproperties.h"
 #include "ui_dialogplotseriesproperties.h"
+
+#include "verticalaxesmanager.h"
 
 #include <QColorDialog>
 
-DialogPlotSeriesProperties::DialogPlotSeriesProperties(PlotChartWidget *chart, QWidget *parent) :
+DialogPlotSeriesProperties::DialogPlotSeriesProperties(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::DialogPlotSeriesProperties),
-    m_plotChartWidget(chart)
+    ui(new Ui::DialogPlotSeriesProperties)
 {
     ui->setupUi(this);
-    updateAxesComboBox();
-}
-
-DialogPlotSeriesProperties::DialogPlotSeriesProperties(PlotChartWidget *chart, const QString &topicName, QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::DialogPlotSeriesProperties),
-    m_plotChartWidget(chart)
-{
-    ui->setupUi(this);
-    ui->lineEditTopic->setText(topicName);
-    ui->lineEditName->setText(topicName.mid(topicName.lastIndexOf('/')+1));
     updateAxesComboBox();
 }
 
@@ -35,17 +25,21 @@ PlotLineSeries *DialogPlotSeriesProperties::series() const
 
 void DialogPlotSeriesProperties::setSeries(PlotLineSeries *series)
 {
+    ui->lineEditName->setText(series->name());
+    ui->lineEditTopic->setText(series->dataSource());
+    ui->doubleSpinBoxWidth->setValue(series->width());
     m_series = series;
     m_color = m_series->color();
     ui->toolButtonSelectColor->setStyleSheet(QString("background-color: %1")
                                              .arg(m_color.name()));
+    ui->comboBoxYAxis->setCurrentIndex(VerticalAxesManager::instance()->axes().indexOf(series->verticalAxis()));
 }
 
 void DialogPlotSeriesProperties::updateAxesComboBox()
 {
     ui->comboBoxYAxis->clear();
-    for (auto *axis : m_plotChartWidget->verticalAxes()) {
-        ui->comboBoxYAxis->addItem(axis->name());
+    for (auto *axis : VerticalAxesManager::instance()->axes()) {
+        ui->comboBoxYAxis->addItem(axis->name(), axis->getUid());
     }
 }
 
@@ -70,5 +64,5 @@ void DialogPlotSeriesProperties::on_DialogPlotSeriesProperties_accepted()
     m_series->setDataSource(ui->lineEditTopic->text());
     m_series->setName(ui->lineEditName->text());
     m_series->setWidth(ui->doubleSpinBoxWidth->value());
-    m_series->setVerticalAxis(m_plotChartWidget->verticalAxes().at(ui->comboBoxYAxis->currentIndex()));
+    m_series->setVerticalAxis(VerticalAxesManager::instance()->axes().at(ui->comboBoxYAxis->currentIndex()));
 }

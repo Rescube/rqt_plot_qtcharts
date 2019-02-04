@@ -1,7 +1,7 @@
 #ifndef DIALOGAXISPROPERTIES_H
 #define DIALOGAXISPROPERTIES_H
 
-#include "plotverticalaxis.h"
+#include "verticalaxis.h"
 #include "plotlineseries.h"
 
 #include <QDialog>
@@ -24,8 +24,8 @@ public:
     PlotLineSeries *series() const;
     void setSeries(PlotLineSeries *series);
 
-    PlotVerticalAxis *axis() const;
-    void setAxis(PlotVerticalAxis *axis);
+    VerticalAxis *axis() const;
+    void setAxis(VerticalAxis *axis);
 
 private slots:
     void on_checkBoxAutoScale_toggled(bool checked);
@@ -34,7 +34,7 @@ private slots:
 
 private:
     Ui::DialogAxisProperties *ui;
-    PlotVerticalAxis *m_axis = nullptr;
+    VerticalAxis *m_axis = nullptr;
 };
 
 #endif // DIALOGAXISPROPERTIES_H
