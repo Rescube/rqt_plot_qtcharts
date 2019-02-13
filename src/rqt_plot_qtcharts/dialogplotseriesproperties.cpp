@@ -32,7 +32,10 @@ void DialogPlotSeriesProperties::setSeries(PlotLineSeries *series)
     m_color = m_series->color();
     ui->toolButtonSelectColor->setStyleSheet(QString("background-color: %1")
                                              .arg(m_color.name()));
-    ui->comboBoxYAxis->setCurrentIndex(VerticalAxesManager::instance()->axes().indexOf(series->verticalAxis()));
+    int index = VerticalAxesManager::instance()->axes().indexOf(series->verticalAxis());
+    if (index == -1)
+        index = 0;
+    ui->comboBoxYAxis->setCurrentIndex(index);
 }
 
 void DialogPlotSeriesProperties::updateAxesComboBox()

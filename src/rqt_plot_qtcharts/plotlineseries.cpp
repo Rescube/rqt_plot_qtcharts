@@ -8,7 +8,7 @@ QT_CHARTS_USE_NAMESPACE
 PlotLineSeries::PlotLineSeries(QObject *parent) :
     QLineSeries(parent)
 {
-
+    setUseOpenGL(true);
 }
 
 QString PlotLineSeries::dataSource() const
@@ -62,10 +62,17 @@ void PlotLineSeries::dataReceived(qreal y)
 {
     append(m_xIndex, y);
     m_xIndex++;
+
+    if (m_verticalAxis)
+        m_verticalAxis->seriesPointAdded(y);
 }
 
 void PlotLineSeries::clear()
 {
     m_xIndex = 0;
     QLineSeries::clear();
+    append(QPointF(0,0));
+
+    if (m_verticalAxis)
+        m_verticalAxis->resetRange();
 }

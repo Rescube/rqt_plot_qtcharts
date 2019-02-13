@@ -71,7 +71,7 @@ void PlotQtChartsWidget::restoreAxes(const qt_gui_cpp::Settings &instance_settin
         axis->setRangeMin(instance_settings.value(QString("axes/%1/min").arg(index), 0).toDouble());
         axis->setRangeMax(instance_settings.value(QString("axes/%1/max").arg(index), 100).toDouble());
         axis->setAutoScale(instance_settings.value(QString("axes/%1/autoScale").arg(index), true).toBool());
-        axis->setUid(instance_settings.value(QString("axes/%1/uid").arg(index), true).toString());
+        axis->setUid(instance_settings.value(QString("axes/%1/uid").arg(index), "").toString());
         VerticalAxesManager::instance()->addAxis(axis);
     }
 
@@ -101,6 +101,7 @@ void PlotQtChartsWidget::saveAxes(qt_gui_cpp::Settings &instance_settings) const
                                    axis->autoScale());
         instance_settings.setValue(QString("axes/%1/align").arg(index),
                                    static_cast<int>(axis->align()));
+        instance_settings.setValue(QString("axes/%1/uid").arg(index), axis->getUid());
         index++;
     }
 }
@@ -230,6 +231,12 @@ void PlotQtChartsWidget::seriesAdded(PlotLineSeries *newSeries)
         ui->toolButtonRemoveTopic->setEnabled(ui->toolButtonRemoveTopic->actions().count());
         delete topicRemoveAction;
     });
+
+    ui->zoomableChartWidget->chart()->addSeries(newSeries);
+    ui->zoomableChartWidget->chart()->setAxisX(m_axisX, newSeries);
+    if (newSeries->verticalAxis())
+        ui->zoomableChartWidget->chart()->setAxisY(newSeries->verticalAxis(), newSeries);
+    ui->zoomableChartWidget->connectLegendMarkerEvents();
 }
 
 void PlotQtChartsWidget::seriesRemoved(PlotLineSeries *series)
@@ -244,7 +251,10 @@ void PlotQtChartsWidget::seriesRemoved(PlotLineSeries *series)
 
 void PlotQtChartsWidget::axisAdded(VerticalAxis *axis)
 {
+    axis->setTitleText(axis->name());
+    axis->setTitleVisible(true);
     ui->zoomableChartWidget->chart()->addAxis(axis, axis->align());
+    axis->resetRange();
 }
 
 void PlotQtChartsWidget::axisRemoved(VerticalAxis *axis)
@@ -272,6 +282,12 @@ void PlotQtChartsWidget::debugCallback(const rescube_msgs::PIDDebug::ConstPtr &d
             series->dataReceived(dbg.get()->outputPID);
         if (series->dataSource() == "/tiva_arm/PIDoutput/outputAfterScale")
             series->dataReceived(dbg.get()->outputAfterScale);
+        if (series->dataSource() == "/tiva_arm/PIDoutput/integrator")
+            series->dataReceived(dbg.get()->integrator);
+    }
+
+    for (VerticalAxis *axis : VerticalAxesManager::instance()->axes()) {
+
     }
 }
 

@@ -24,9 +24,7 @@ void DialogAxisProperties::showEvent(QShowEvent *event)
 
 void DialogAxisProperties::on_checkBoxAutoScale_toggled(bool checked)
 {
-    ui->doubleSpinBoxRangeMin->setEnabled(!checked);
-    ui->doubleSpinBoxRangeMax->setEnabled(!checked);
-
+    m_axis->setAutoScale(checked);
     if (checked) {
         // TODO set the current min max of the axis to the spinBoxes
     }
@@ -48,6 +46,7 @@ void DialogAxisProperties::setAxis(VerticalAxis *axis)
     ui->doubleSpinBoxRangeMin->setValue(m_axis->rangeMin());
     ui->doubleSpinBoxRangeMax->setValue(m_axis->rangeMax());
     ui->checkBoxAxisLabelVisible->setChecked(m_axis->isVisible());
+    ui->checkBoxAutoScale->setChecked(m_axis->autoScale());
 
     if (m_axis->align() == Qt::AlignRight) {
         ui->comboBoxAlignment->setCurrentIndex(1);

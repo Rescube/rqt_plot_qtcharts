@@ -7,6 +7,8 @@ VerticalAxis::VerticalAxis(QObject *parent) :
     // enable this lovely feature if we have
     this->setLabelsEditable(true);
 #endif
+    m_seriesMin =  std::numeric_limits<qreal>::max();
+    m_seriesMax =  std::numeric_limits<qreal>::min();
 }
 
 QString VerticalAxis::label() const
@@ -36,7 +38,13 @@ bool VerticalAxis::autoScale() const
 
 void VerticalAxis::setAutoScale(bool value)
 {
-    m_autoScale = value;
+    if (m_autoScale != value) {
+        m_autoScale = value;
+        if (m_autoScale)
+            applyAutoScale();
+        else
+            setRange(m_rangeMin, m_rangeMax);
+    }
 }
 
 Qt::Alignment VerticalAxis::align() const
@@ -64,6 +72,8 @@ void VerticalAxis::setUid(const QString &value)
 
 void VerticalAxis::resetRange()
 {
+    m_seriesMin = m_rangeMin;
+    m_seriesMax = m_rangeMax;
     setRange(m_rangeMin, m_rangeMax);
 }
 
@@ -85,4 +95,34 @@ qreal VerticalAxis::rangeMax() const
 void VerticalAxis::setRangeMax(const qreal &rangeMax)
 {
     m_rangeMax = rangeMax;
+}
+
+void VerticalAxis::applyAutoScale()
+{
+    setRange(m_seriesMin, m_seriesMax);
+}
+
+void VerticalAxis::seriesPointAdded(const qreal y)
+{
+    if (y < m_seriesMin) {
+        m_seriesMin = y;
+        if (m_autoScale)
+            applyAutoScale();
+    }
+
+    if (y > m_seriesMax) {
+        m_seriesMax = y;
+        if (m_autoScale)
+            applyAutoScale();
+    }
+}
+
+bool VerticalAxis::getInstantApplyAutoScale() const
+{
+    return m_instantApplyAutoScale;
+}
+
+void VerticalAxis::setInstantApplyAutoScale(bool instantApplyAutoScale)
+{
+    m_instantApplyAutoScale = instantApplyAutoScale;
 }

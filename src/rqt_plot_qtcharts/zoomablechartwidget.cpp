@@ -88,6 +88,7 @@ QChart *ZoomableChartWidget::chart() const
     return m_chart;
 }
 
+// FIXME sublclass QChart emit a signal when series is added
 void ZoomableChartWidget::connectLegendMarkerEvents()
 {
     // Connect all markers to handler

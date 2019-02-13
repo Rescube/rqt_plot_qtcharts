@@ -38,14 +38,22 @@ public:
     qreal rangeMax() const;
     void setRangeMax(const qreal &rangeMax);
 
+    void seriesPointAdded(const qreal y);
+
+    bool getInstantApplyAutoScale() const;
+    void setInstantApplyAutoScale(bool instantApplyAutoScale);
+
+    void applyAutoScale();
+
 private:
     QString m_name, m_label;
     bool m_autoScale = false;
+    bool m_instantApplyAutoScale = true;
     Qt::Alignment m_align;
     QString m_uid;
 
     qreal m_rangeMin = 0, m_rangeMax = 100.0;
-
+    qreal m_seriesMin, m_seriesMax;
 signals:
     void alignChanged(Qt::Alignment align);
 };
