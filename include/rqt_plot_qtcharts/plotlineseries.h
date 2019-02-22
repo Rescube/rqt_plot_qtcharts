@@ -40,6 +40,7 @@ private:
     qreal m_xIndex = 0;
 signals:
     void axisChanged();
+    void visiblityChanged(bool visible);
 };
 
 #endif // PLOTLINESERIES_H

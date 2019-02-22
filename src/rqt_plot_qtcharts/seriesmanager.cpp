@@ -41,6 +41,11 @@ void SeriesManager::removeSeries(PlotLineSeries *series)
     emit seriesRemoved(series);
 }
 
+void SeriesManager::setSeriesVisible(PlotLineSeries *series, bool visible)
+{
+    emit seriesVisiblityChanged(series, visible);
+}
+
 QList<PlotLineSeries *> SeriesManager::seriesList() const
 {
     return m_series;

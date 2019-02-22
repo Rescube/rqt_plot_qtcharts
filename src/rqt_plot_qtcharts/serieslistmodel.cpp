@@ -40,7 +40,9 @@ QVariant SeriesListModel::data(const QModelIndex &index, int role) const
 bool SeriesListModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (index.column() == Col_Visible && role == Qt::CheckStateRole) {
-        SeriesManager::instance()->seriesList().at(index.row())->setVisible(value.toBool());
+        SeriesManager::instance()->setSeriesVisible(
+                    SeriesManager::instance()->seriesList().at(index.row()),
+                    value.toBool());
         return true;
     }
     return false;

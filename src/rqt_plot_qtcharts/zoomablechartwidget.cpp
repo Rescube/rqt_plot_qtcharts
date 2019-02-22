@@ -53,14 +53,26 @@ void ZoomableChartWidget::legendMarkerClicked()
     switch (marker->type()) {
     case QLegendMarker::LegendMarkerTypeXY:
         // Toggle visibility of series
-        marker->series()->setVisible(!marker->series()->isVisible());
+        setSeriesVisible(marker->series(), !marker->series()->isVisible());
+        break;
+    }
+}
 
+QChart *ZoomableChartWidget::chart() const
+{
+    return m_chart;
+}
+
+void ZoomableChartWidget::setSeriesVisible(QAbstractSeries *series, bool visible)
+{
+    series->setVisible(visible);
+    for (QLegendMarker *marker : m_chart->legend()->markers(series)) {
         // Turn legend marker back to visible, since hiding series also hides the marker
         // and we don't want it to happen now.
         marker->setVisible(true);
 
         // Dim the marker, if series is not visible
-        qreal alpha = marker->series()->isVisible() ? 1.0 : 0.5;
+        qreal alpha = visible ? 1.0 : 0.5;
         QColor color;
         QBrush brush = marker->labelBrush();
         color = brush.color();
@@ -79,13 +91,7 @@ void ZoomableChartWidget::legendMarkerClicked()
         color.setAlphaF(alpha);
         pen.setColor(color);
         marker->setPen(pen);
-        break;
     }
-}
-
-QChart *ZoomableChartWidget::chart() const
-{
-    return m_chart;
 }
 
 // FIXME sublclass QChart emit a signal when series is added

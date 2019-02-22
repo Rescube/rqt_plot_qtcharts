@@ -28,11 +28,13 @@ PlotQtChartsWidget::PlotQtChartsWidget(QWidget *parent) :
             this, &PlotQtChartsWidget::seriesAdded);
     connect(SeriesManager::instance(), &SeriesManager::seriesRemoved,
             this, &PlotQtChartsWidget::seriesRemoved);
+    connect(SeriesManager::instance(), &SeriesManager::seriesVisiblityChanged,
+            ui->zoomableChartWidget, &ZoomableChartWidget::setSeriesVisible);
+
     connect(VerticalAxesManager::instance(), &VerticalAxesManager::axisAdded,
             this, &PlotQtChartsWidget::axisAdded);
     connect(VerticalAxesManager::instance(), &VerticalAxesManager::axisRemoved,
             this, &PlotQtChartsWidget::axisRemoved);
-
 }
 
 PlotQtChartsWidget::~PlotQtChartsWidget()
@@ -123,7 +125,6 @@ void PlotQtChartsWidget::restoreSeries(const qt_gui_cpp::Settings &instance_sett
         series->setDataSource(instance_settings.value(QString("series/%1/dataSource").arg(index)).toString());
         series->setWidth(instance_settings.value(QString("series/%1/width").arg(index)).toDouble());
         series->setColor(instance_settings.value(QString("series/%1/color").arg(index)).toString());
-        series->setVisible(instance_settings.value(QString("series/%1/visible").arg(index)).toBool());
         series->setName(instance_settings.value(QString("series/%1/name").arg(index)).toString());
         series->setVerticalAxis(nullptr);
         QString axisUid = instance_settings.value(QString("series/%1/axisUid").arg(index)).toString();
@@ -134,6 +135,9 @@ void PlotQtChartsWidget::restoreSeries(const qt_gui_cpp::Settings &instance_sett
             }
         }
         SeriesManager::instance()->addSeries(series);
+        ui->zoomableChartWidget->setSeriesVisible(
+                    series,
+                    instance_settings.value(QString("series/%1/visible").arg(index)).toBool());
     }
 }
 

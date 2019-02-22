@@ -2,6 +2,7 @@
 #define SERIESLISTMODEL_H
 
 #include "plotlineseries.h"
+#include "zoomablechartwidget.h"
 
 #include <QAbstractTableModel>
 

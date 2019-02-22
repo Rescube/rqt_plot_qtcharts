@@ -5,6 +5,7 @@
 #include <QWidget>
 
 #include <QtCharts/QChart>
+#include <QtCharts/QLineSeries>
 
 QT_CHARTS_USE_NAMESPACE
 
@@ -22,6 +23,8 @@ public:
     void connectLegendMarkerEvents();
 
     QChart *chart() const;
+public slots:
+    void setSeriesVisible(QAbstractSeries *series, bool visible = true);
 
 private slots:
     void on_comboBoxZoomMode_activated(int index);
