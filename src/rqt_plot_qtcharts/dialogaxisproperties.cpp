@@ -21,6 +21,16 @@ void DialogAxisProperties::showEvent(QShowEvent *event)
     QDialog::showEvent(event);
 }
 
+void DialogAxisProperties::saveSettings(qt_gui_cpp::Settings &instance_settings) const
+{
+    instance_settings.setValue("DialogAxisProperties.geometry", saveGeometry());
+}
+
+void DialogAxisProperties::restoreSettings(const qt_gui_cpp::Settings &instance_settings)
+{
+    restoreGeometry(instance_settings.value("DialogAxisProperties.geometry").toByteArray());
+}
+
 
 void DialogAxisProperties::on_checkBoxAutoScale_toggled(bool checked)
 {

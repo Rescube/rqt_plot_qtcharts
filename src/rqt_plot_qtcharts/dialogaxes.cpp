@@ -33,6 +33,16 @@ void DialogAxes::refreshAxisList()
     ui->tableViewAxesList->horizontalHeader()->setSectionResizeMode(VerticalAxesModel::Col_Visible, QHeaderView::ResizeToContents);
 }
 
+void DialogAxes::saveSettings(qt_gui_cpp::Settings &instance_settings) const
+{
+    instance_settings.setValue("DialogAxes.geometry", saveGeometry());
+}
+
+void DialogAxes::restoreSettings(const qt_gui_cpp::Settings &instance_settings)
+{
+    restoreGeometry(instance_settings.value("DialogAxes.geometry").toByteArray());
+}
+
 void DialogAxes::on_toolButtonAddAxis_clicked()
 {
     VerticalAxis *axis = new VerticalAxis();

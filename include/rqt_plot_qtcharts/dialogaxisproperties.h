@@ -7,6 +7,8 @@
 #include <QDialog>
 #include <QShowEvent>
 
+#include <rqt_gui_cpp/plugin.h>
+
 namespace Ui {
 class DialogAxisProperties;
 }
@@ -20,6 +22,9 @@ public:
     ~DialogAxisProperties();
 
     void showEvent(QShowEvent *event);
+
+    void saveSettings(qt_gui_cpp::Settings& instance_settings) const;
+    void restoreSettings(const qt_gui_cpp::Settings& instance_settings);
 
     PlotLineSeries *series() const;
     void setSeries(PlotLineSeries *series);

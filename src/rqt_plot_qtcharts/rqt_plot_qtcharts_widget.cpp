@@ -16,6 +16,8 @@ PlotQtChartsWidget::PlotQtChartsWidget(QWidget *parent) :
     ui->setupUi(this);
 
     m_axesDialog = new DialogAxes(this);
+    m_seriesDialog = new DialogSeries(this);
+
     m_subscriber = m_nodeHandle.subscribe("/tiva_arm/PIDoutput", 1, &PlotQtChartsWidget::debugCallback, this);
 
     m_axisX = new QValueAxis(this);
@@ -30,6 +32,7 @@ PlotQtChartsWidget::PlotQtChartsWidget(QWidget *parent) :
             this, &PlotQtChartsWidget::axisAdded);
     connect(VerticalAxesManager::instance(), &VerticalAxesManager::axisRemoved,
             this, &PlotQtChartsWidget::axisRemoved);
+
 }
 
 PlotQtChartsWidget::~PlotQtChartsWidget()
@@ -42,6 +45,9 @@ void PlotQtChartsWidget::saveSettings(qt_gui_cpp::Settings &instance_settings) c
     instance_settings.setValue("lastTopic", ui->lineEditTopic->text());
     saveAxes(instance_settings);
     saveSeries(instance_settings);
+
+    m_seriesDialog->saveSettings(instance_settings);
+    m_axesDialog->saveSettings(instance_settings);
 }
 
 void PlotQtChartsWidget::restoreSettings(const qt_gui_cpp::Settings &instance_settings)
@@ -49,6 +55,9 @@ void PlotQtChartsWidget::restoreSettings(const qt_gui_cpp::Settings &instance_se
     ui->lineEditTopic->setText(instance_settings.value("lastTopic", "/").toString());
     restoreAxes(instance_settings);
     restoreSeries(instance_settings);
+
+    m_seriesDialog->restoreSettings(instance_settings);
+    m_axesDialog->restoreSettings(instance_settings);
 }
 
 
@@ -205,8 +214,6 @@ PlotLineSeries *SeriesRemoveAction::series() const
 
 void PlotQtChartsWidget::on_toolButtonSeries_clicked()
 {
-    if (!m_seriesDialog)
-        m_seriesDialog = new DialogSeries(this);
     m_seriesDialog->show();
 }
 
@@ -233,9 +240,9 @@ void PlotQtChartsWidget::seriesAdded(PlotLineSeries *newSeries)
     });
 
     ui->zoomableChartWidget->chart()->addSeries(newSeries);
-    ui->zoomableChartWidget->chart()->setAxisX(m_axisX, newSeries);
+    ui->zoomableChartWidget->chart()->axes(Qt::Horizontal, newSeries).append(m_axisX);
     if (newSeries->verticalAxis())
-        ui->zoomableChartWidget->chart()->setAxisY(newSeries->verticalAxis(), newSeries);
+        ui->zoomableChartWidget->chart()->axes(Qt::Vertical, newSeries).append(newSeries->verticalAxis());
     ui->zoomableChartWidget->connectLegendMarkerEvents();
 }
 

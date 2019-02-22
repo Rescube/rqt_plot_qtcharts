@@ -18,6 +18,16 @@ DialogPlotSeriesProperties::~DialogPlotSeriesProperties()
     delete ui;
 }
 
+void DialogPlotSeriesProperties::saveSettings(qt_gui_cpp::Settings &instance_settings) const
+{
+    instance_settings.setValue("DialogPlotSeriesProperties.geometry", saveGeometry());
+}
+
+void DialogPlotSeriesProperties::restoreSettings(const qt_gui_cpp::Settings &instance_settings)
+{
+    restoreGeometry(instance_settings.value("DialogPlotSeriesProperties.geometry").toByteArray());
+}
+
 PlotLineSeries *DialogPlotSeriesProperties::series() const
 {
     return m_series;
@@ -68,4 +78,14 @@ void DialogPlotSeriesProperties::on_DialogPlotSeriesProperties_accepted()
     m_series->setName(ui->lineEditName->text());
     m_series->setWidth(ui->doubleSpinBoxWidth->value());
     m_series->setVerticalAxis(VerticalAxesManager::instance()->axes().at(ui->comboBoxYAxis->currentIndex()));
+}
+
+QByteArray DialogPlotSeriesProperties::geometry() const
+{
+    return m_geometry;
+}
+
+void DialogPlotSeriesProperties::setGeometry(const QByteArray &geometry)
+{
+    m_geometry = geometry;
 }

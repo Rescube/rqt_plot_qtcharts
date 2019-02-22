@@ -5,6 +5,8 @@
 
 #include <QDialog>
 
+#include <rqt_gui_cpp/plugin.h>
+
 namespace Ui {
 class DialogAxes;
 }
@@ -17,6 +19,9 @@ public:
     explicit DialogAxes(QWidget *parent = 0);
     ~DialogAxes();
     void refreshAxisList();
+
+    void saveSettings(qt_gui_cpp::Settings& instance_settings) const;
+    void restoreSettings(const qt_gui_cpp::Settings& instance_settings);
 
 private slots:
     void on_toolButtonAddAxis_clicked();

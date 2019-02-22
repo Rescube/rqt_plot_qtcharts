@@ -23,6 +23,16 @@ DialogSeries::~DialogSeries()
     delete ui;
 }
 
+void DialogSeries::saveSettings(qt_gui_cpp::Settings &instance_settings) const
+{
+    instance_settings.setValue("DialogSeries.geometry", saveGeometry());
+}
+
+void DialogSeries::restoreSettings(const qt_gui_cpp::Settings &instance_settings)
+{
+    restoreGeometry(instance_settings.value("DialogSeries.geometry").toByteArray());
+}
+
 void DialogSeries::on_tableViewSeries_doubleClicked(const QModelIndex &index)
 {
     if (!m_seriesPropertiesDialog)
