@@ -244,9 +244,12 @@ void PlotQtChartsWidget::seriesAdded(PlotLineSeries *newSeries)
     });
 
     ui->zoomableChartWidget->chart()->addSeries(newSeries);
-    ui->zoomableChartWidget->chart()->axes(Qt::Horizontal, newSeries).append(m_axisX);
-    if (newSeries->verticalAxis())
-        ui->zoomableChartWidget->chart()->axes(Qt::Vertical, newSeries).append(newSeries->verticalAxis());
+    //ui->zoomableChartWidget->chart()->axes(Qt::Horizontal, newSeries).append(m_axisX);
+    ui->zoomableChartWidget->chart()->setAxisX(m_axisX, newSeries);
+    if (newSeries->verticalAxis()) {
+        ui->zoomableChartWidget->chart()->setAxisY(newSeries->verticalAxis(), newSeries);
+        //ui->zoomableChartWidget->chart()->axes(Qt::Vertical, newSeries).append(newSeries->verticalAxis());
+    }
     ui->zoomableChartWidget->connectLegendMarkerEvents();
 }
 

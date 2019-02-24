@@ -92,6 +92,21 @@ void ZoomableChartWidget::setSeriesVisible(QAbstractSeries *series, bool visible
         pen.setColor(color);
         marker->setPen(pen);
     }
+
+    for (QAbstractAxis *axis : m_chart->axes(Qt::Vertical)) {
+        bool hideAxis = true;
+        for (QAbstractSeries *series : m_chart->series()) {
+            for (QAbstractAxis *attachedAxis : series->attachedAxes()) {
+                if (series->isVisible() && attachedAxis == axis) {
+                    hideAxis = false;
+                    break;
+                }
+            }
+            if (!hideAxis)
+                break;
+        }
+        axis->setVisible(!hideAxis);
+    }
 }
 
 // FIXME sublclass QChart emit a signal when series is added
