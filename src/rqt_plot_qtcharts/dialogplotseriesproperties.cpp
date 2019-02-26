@@ -38,6 +38,7 @@ void DialogPlotSeriesProperties::setSeries(PlotLineSeries *series)
     ui->lineEditName->setText(series->name());
     ui->lineEditTopic->setText(series->dataSource());
     ui->doubleSpinBoxWidth->setValue(series->width());
+    ui->doubleSpinBoxScale->setValue(series->scale());
     m_series = series;
     m_color = m_series->color();
     ui->toolButtonSelectColor->setStyleSheet(QString("background-color: %1")
@@ -78,6 +79,7 @@ void DialogPlotSeriesProperties::on_DialogPlotSeriesProperties_accepted()
     m_series->setName(ui->lineEditName->text());
     m_series->setWidth(ui->doubleSpinBoxWidth->value());
     m_series->setVerticalAxis(VerticalAxesManager::instance()->axes().at(ui->comboBoxYAxis->currentIndex()));
+    m_series->setScale(ui->doubleSpinBoxScale->value());
 }
 
 QByteArray DialogPlotSeriesProperties::geometry() const

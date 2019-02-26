@@ -60,11 +60,11 @@ void PlotLineSeries::setVerticalAxis(VerticalAxis *verticalAxis)
 
 void PlotLineSeries::dataReceived(qreal y)
 {
-    append(m_xIndex, y);
+    append(m_xIndex, y * m_scale);
     m_xIndex++;
 
     if (m_verticalAxis)
-        m_verticalAxis->seriesPointAdded(y);
+        m_verticalAxis->seriesPointAdded(y * m_scale);
 }
 
 void PlotLineSeries::clear()
@@ -75,4 +75,14 @@ void PlotLineSeries::clear()
 
     if (m_verticalAxis)
         m_verticalAxis->resetRange();
+}
+
+qreal PlotLineSeries::scale() const
+{
+    return m_scale;
+}
+
+void PlotLineSeries::setScale(const qreal &scale)
+{
+    m_scale = scale;
 }

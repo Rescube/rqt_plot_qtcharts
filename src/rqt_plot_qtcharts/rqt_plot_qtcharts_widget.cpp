@@ -19,6 +19,7 @@ PlotQtChartsWidget::PlotQtChartsWidget(QWidget *parent) :
     m_seriesDialog = new DialogSeries(this);
 
     m_subscriber = m_nodeHandle.subscribe("/tiva_arm/PIDoutput", 1, &PlotQtChartsWidget::debugCallback, this);
+    m_speedSubscriber = m_nodeHandle.subscribe("/tiva_arm/armCommand", 1, &PlotQtChartsWidget::commandCallback, this);
 
     m_axisX = new QValueAxis(this);
     m_axisX->setRange(0, 300);
@@ -123,6 +124,7 @@ void PlotQtChartsWidget::restoreSeries(const qt_gui_cpp::Settings &instance_sett
     for (int index = 0; index < seriesCount; index++) {
         PlotLineSeries *series = new PlotLineSeries(this);
         series->setDataSource(instance_settings.value(QString("series/%1/dataSource").arg(index)).toString());
+        series->setScale(instance_settings.value(QString("series/%1/scale").arg(index), 1.0).toDouble());
         series->setWidth(instance_settings.value(QString("series/%1/width").arg(index)).toDouble());
         series->setColor(instance_settings.value(QString("series/%1/color").arg(index)).toString());
         series->setName(instance_settings.value(QString("series/%1/name").arg(index)).toString());
@@ -157,6 +159,8 @@ void PlotQtChartsWidget::saveSeries(qt_gui_cpp::Settings &instance_settings) con
                                    series->pen().width());
         instance_settings.setValue(QString("series/%1/visible").arg(index),
                                    series->isVisible());
+        instance_settings.setValue(QString("series/%1/scale").arg(index),
+                                   series->scale());
         if (series->verticalAxis()) {
             instance_settings.setValue(QString("series/%1/axisUid").arg(index),
                                        series->verticalAxis()->getUid());
@@ -298,11 +302,18 @@ void PlotQtChartsWidget::debugCallback(const rescube_msgs::PIDDebug::ConstPtr &d
             series->dataReceived(dbg.get()->outputAfterScale);
         if (series->dataSource() == "/tiva_arm/PIDoutput/integrator")
             series->dataReceived(dbg.get()->integrator);
+        if (series->dataSource() == "/tiva_arm/armCommand/rotateSpeed")
+            series->dataReceived(m_currentSpeed);
     }
 
     for (VerticalAxis *axis : VerticalAxesManager::instance()->axes()) {
 
     }
+}
+
+void PlotQtChartsWidget::commandCallback(const rescube_msgs::RobotARMCommand::ConstPtr &msg)
+{
+    m_currentSpeed = msg.get()->rotateSpeed;
 }
 
 void PlotQtChartsWidget::addDefaultVerticalAxis()

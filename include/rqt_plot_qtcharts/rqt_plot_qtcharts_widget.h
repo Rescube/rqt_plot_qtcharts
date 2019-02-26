@@ -5,6 +5,7 @@
 #include "dialogaxes.h"
 #include "dialogseries.h"
 
+#include <rescube_msgs/RobotARMCommand.h>
 #include <rescube_msgs/PIDDebug.h>
 
 #include <ros/node_handle.h>
@@ -64,6 +65,7 @@ private:
     QValueAxis *m_axisX = nullptr;
 
     ros::Subscriber m_subscriber;
+    ros::Subscriber m_speedSubscriber;
     ros::NodeHandle m_nodeHandle;
 
     void saveAxes(qt_gui_cpp::Settings &instance_settings) const;
@@ -72,8 +74,11 @@ private:
     void restoreSeries(const qt_gui_cpp::Settings &instance_settings);
 
     void debugCallback(const rescube_msgs::PIDDebug::ConstPtr &dbg);
+    void commandCallback(const rescube_msgs::RobotARMCommand::ConstPtr &msg);
 
     void addDefaultVerticalAxis();
+
+    qreal m_currentSpeed = 0;
 };
 
 #endif // RQT_PLOT_QTCHARTS_WIDGET_H

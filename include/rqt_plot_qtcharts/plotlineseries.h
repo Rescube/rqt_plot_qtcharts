@@ -33,11 +33,15 @@ public:
     void dataReceived(qreal y);
     void clear();
 
+    qreal scale() const;
+    void setScale(const qreal &scale);
+
 private:
     // topic name
     QString m_dataSource;
     VerticalAxis *m_verticalAxis = nullptr;
     qreal m_xIndex = 0;
+    qreal m_scale = 1.0;
 signals:
     void axisChanged();
     void visiblityChanged(bool visible);
